@@ -13,7 +13,6 @@ namespace SiPA.API.Data.Entities
         public int Id { get; set; }
         public string RequestName { get; set; }
         public DateTime RequestDate { get; set; }
-        [ForeignKey("Id")]
         public ICollection<History> Histories { get; set; }
     }
 }
