@@ -9,10 +9,8 @@ namespace SiPA.API.Data.Entities
 {
     public class Christening
     {
-        [Key]
-        public int Id { get; set; }
+        public int ChristeningId { get; set; }
         public DateTime ChristeningDate { get; set; }
-        [ForeignKey("Id")]
         public Parishioner Parishioner { get; set; }
         public string FatherName { get; set; }
         public string FatherIdentification { get; set; }

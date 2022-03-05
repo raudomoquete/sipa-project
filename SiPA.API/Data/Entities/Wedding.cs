@@ -9,12 +9,10 @@ namespace SiPA.API.Data.Entities
 {
     public class Wedding
     {
-        [Key]
-        public int Id { get; set; }
+        public int WeddingId { get; set; }
         public DateTime WeddingDate { get; set; }
         [MaxLength(2)]
-        [ForeignKey("Id")]
-        public ICollection<Parishioner> WeddingPartners { get; set; }
+        public ICollection<Parishioner> Parishioners { get; set; }
         public string FatherName { get; set; }
         public string FatherIdentification { get; set; }
         public string MotherName { get; set; }

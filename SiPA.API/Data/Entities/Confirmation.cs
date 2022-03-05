@@ -9,10 +9,8 @@ namespace SiPA.API.Data.Entities
 {
     public class Confirmation
     {
-        [Key]
-        public int Id { get; set; }
+        public int ConfirmationId { get; set; }
         public DateTime ConfirmationDate { get; set; }
-        [ForeignKey("Id")]
         public Parishioner Parishioner { get; set; }
         public string FatherName { get; set; }
         public string FatherIdentification { get; set; }

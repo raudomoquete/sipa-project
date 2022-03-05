@@ -10,7 +10,7 @@ using SiPA.API.Data;
 namespace SiPA.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220301192922_CompleteDB")]
+    [Migration("20220304233431_CompleteDB")]
     partial class CompleteDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,8 +23,10 @@ namespace SiPA.API.Migrations
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Christening", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<int>("ChristeningId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CeremonialCelebrant")
                         .HasColumnType("nvarchar(max)");
@@ -59,7 +61,7 @@ namespace SiPA.API.Migrations
                     b.Property<string>("MotherName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ChristeningId");
 
                     b.HasIndex("ChurchId");
 
@@ -92,8 +94,10 @@ namespace SiPA.API.Migrations
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Confirmation", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<int>("ConfirmationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CeremonialCelebrant")
                         .HasColumnType("nvarchar(max)");
@@ -128,7 +132,7 @@ namespace SiPA.API.Migrations
                     b.Property<string>("MotherName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ConfirmationId");
 
                     b.HasIndex("ChurchId");
 
@@ -137,8 +141,10 @@ namespace SiPA.API.Migrations
 
             modelBuilder.Entity("SiPA.API.Data.Entities.FirstCommunion", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<int>("FirstCommunionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CeremonialCelebrant")
                         .HasColumnType("nvarchar(max)");
@@ -161,7 +167,7 @@ namespace SiPA.API.Migrations
                     b.Property<string>("MotherName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("FirstCommunionId");
 
                     b.HasIndex("ChurchId");
 
@@ -171,7 +177,9 @@ namespace SiPA.API.Migrations
             modelBuilder.Entity("SiPA.API.Data.Entities.History", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -179,9 +187,14 @@ namespace SiPA.API.Migrations
                     b.Property<int?>("ParishionerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RequestTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParishionerId");
+
+                    b.HasIndex("RequestTypeId");
 
                     b.ToTable("Histories");
                 });
@@ -189,16 +202,27 @@ namespace SiPA.API.Migrations
             modelBuilder.Entity("SiPA.API.Data.Entities.Parishioner", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ChristeningId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ChurchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ConfirmationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FirstCommunionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -209,9 +233,23 @@ namespace SiPA.API.Migrations
                     b.Property<string>("PhoneNo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("WeddingId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ChristeningId")
+                        .IsUnique();
+
                     b.HasIndex("ChurchId");
+
+                    b.HasIndex("ConfirmationId")
+                        .IsUnique();
+
+                    b.HasIndex("FirstCommunionId")
+                        .IsUnique();
+
+                    b.HasIndex("WeddingId");
 
                     b.ToTable("Parishioners");
                 });
@@ -219,6 +257,11 @@ namespace SiPA.API.Migrations
             modelBuilder.Entity("SiPA.API.Data.Entities.RequestType", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ChurchId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RequestDate")
@@ -229,12 +272,14 @@ namespace SiPA.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChurchId");
+
                     b.ToTable("RequestTypes");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Wedding", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("WeddingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -278,7 +323,7 @@ namespace SiPA.API.Migrations
                     b.Property<string>("WitnessIdentification")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("WeddingId");
 
                     b.HasIndex("ChurchId");
 
@@ -291,15 +336,7 @@ namespace SiPA.API.Migrations
                         .WithMany("Christenings")
                         .HasForeignKey("ChurchId");
 
-                    b.HasOne("SiPA.API.Data.Entities.Parishioner", "Parishioner")
-                        .WithOne("Christening")
-                        .HasForeignKey("SiPA.API.Data.Entities.Christening", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Church");
-
-                    b.Navigation("Parishioner");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Confirmation", b =>
@@ -308,15 +345,7 @@ namespace SiPA.API.Migrations
                         .WithMany("Confirmations")
                         .HasForeignKey("ChurchId");
 
-                    b.HasOne("SiPA.API.Data.Entities.Parishioner", "Parishioner")
-                        .WithOne("Confirmation")
-                        .HasForeignKey("SiPA.API.Data.Entities.Confirmation", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Church");
-
-                    b.Navigation("Parishioner");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.FirstCommunion", b =>
@@ -325,28 +354,18 @@ namespace SiPA.API.Migrations
                         .WithMany("FirstCommunions")
                         .HasForeignKey("ChurchId");
 
-                    b.HasOne("SiPA.API.Data.Entities.Parishioner", "Parishioner")
-                        .WithOne("FirstCommunion")
-                        .HasForeignKey("SiPA.API.Data.Entities.FirstCommunion", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Church");
-
-                    b.Navigation("Parishioner");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.History", b =>
                 {
-                    b.HasOne("SiPA.API.Data.Entities.RequestType", "RequestType")
-                        .WithMany("Histories")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SiPA.API.Data.Entities.Parishioner", "Parishioner")
                         .WithMany("Histories")
                         .HasForeignKey("ParishionerId");
+
+                    b.HasOne("SiPA.API.Data.Entities.RequestType", "RequestType")
+                        .WithMany("Histories")
+                        .HasForeignKey("RequestTypeId");
 
                     b.Navigation("Parishioner");
 
@@ -355,26 +374,50 @@ namespace SiPA.API.Migrations
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Parishioner", b =>
                 {
+                    b.HasOne("SiPA.API.Data.Entities.Christening", "Christening")
+                        .WithOne("Parishioner")
+                        .HasForeignKey("SiPA.API.Data.Entities.Parishioner", "ChristeningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SiPA.API.Data.Entities.Church", "Church")
                         .WithMany("Parishioners")
                         .HasForeignKey("ChurchId");
 
-                    b.HasOne("SiPA.API.Data.Entities.Wedding", null)
-                        .WithMany("WeddingPartners")
-                        .HasForeignKey("Id")
+                    b.HasOne("SiPA.API.Data.Entities.Confirmation", "Confirmation")
+                        .WithOne("Parishioner")
+                        .HasForeignKey("SiPA.API.Data.Entities.Parishioner", "ConfirmationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SiPA.API.Data.Entities.FirstCommunion", "FirstCommunion")
+                        .WithOne("Parishioner")
+                        .HasForeignKey("SiPA.API.Data.Entities.Parishioner", "FirstCommunionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SiPA.API.Data.Entities.Wedding", "Wedding")
+                        .WithMany("Parishioners")
+                        .HasForeignKey("WeddingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Christening");
+
                     b.Navigation("Church");
+
+                    b.Navigation("Confirmation");
+
+                    b.Navigation("FirstCommunion");
+
+                    b.Navigation("Wedding");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.RequestType", b =>
                 {
                     b.HasOne("SiPA.API.Data.Entities.Church", null)
                         .WithMany("RequestTypes")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ChurchId");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Wedding", b =>
@@ -384,6 +427,11 @@ namespace SiPA.API.Migrations
                         .HasForeignKey("ChurchId");
 
                     b.Navigation("Church");
+                });
+
+            modelBuilder.Entity("SiPA.API.Data.Entities.Christening", b =>
+                {
+                    b.Navigation("Parishioner");
                 });
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Church", b =>
@@ -401,14 +449,18 @@ namespace SiPA.API.Migrations
                     b.Navigation("Weddings");
                 });
 
+            modelBuilder.Entity("SiPA.API.Data.Entities.Confirmation", b =>
+                {
+                    b.Navigation("Parishioner");
+                });
+
+            modelBuilder.Entity("SiPA.API.Data.Entities.FirstCommunion", b =>
+                {
+                    b.Navigation("Parishioner");
+                });
+
             modelBuilder.Entity("SiPA.API.Data.Entities.Parishioner", b =>
                 {
-                    b.Navigation("Christening");
-
-                    b.Navigation("Confirmation");
-
-                    b.Navigation("FirstCommunion");
-
                     b.Navigation("Histories");
                 });
 
@@ -419,7 +471,7 @@ namespace SiPA.API.Migrations
 
             modelBuilder.Entity("SiPA.API.Data.Entities.Wedding", b =>
                 {
-                    b.Navigation("WeddingPartners");
+                    b.Navigation("Parishioners");
                 });
 #pragma warning restore 612, 618
         }

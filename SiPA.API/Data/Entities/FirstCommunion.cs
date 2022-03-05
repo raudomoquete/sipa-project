@@ -9,10 +9,8 @@ namespace SiPA.API.Data.Entities
 {
     public class FirstCommunion
     {
-        [Key]
-        public int Id { get; set; }
+        public int FirstCommunionId { get; set; }
         public DateTime FirstCommunionDate { get; set; }
-        [ForeignKey("Id")]
         public Parishioner Parishioner { get; set; }
         public string FatherName { get; set; }
         public string FatherIdentification { get; set; }

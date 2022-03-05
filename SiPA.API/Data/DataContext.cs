@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SiPA.API.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SiPA.API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -19,7 +20,7 @@ namespace SiPA.API.Data
         public DbSet<Wedding> Weddings { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<RequestType> RequestTypes { get; set; }
-
+        public DbSet<Request> Requests { get; set; }
 
     }
 }

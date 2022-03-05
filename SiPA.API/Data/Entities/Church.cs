@@ -9,18 +9,15 @@ namespace SiPA.API.Data.Entities
 {
     public class Church
     {
-        [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
+        public User User { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime FoundedDate { get; set; }
         public ICollection<Parishioner> Parishioners { get; set; }
         public ICollection<Christening> Christenings { get; set; }
         public ICollection<FirstCommunion> FirstCommunions { get; set; }
         public ICollection<Confirmation> Confirmations { get; set; }
         public ICollection<Wedding> Weddings { get; set; }
-        [ForeignKey("Id")]
         public ICollection<RequestType> RequestTypes { get; set; }
     }
 }
